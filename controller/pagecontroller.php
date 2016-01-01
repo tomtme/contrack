@@ -18,7 +18,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 
 use OCA\OwnNotes\Db\test;
-use OCA\OwnNotes\Db\testMapper;
+use OCA\OwnNotes\Db\testmapper;
 
 class PageController extends Controller {
 
@@ -26,7 +26,7 @@ class PageController extends Controller {
 	private $userId;
 
 	private $mapper;
-	
+
 	public function __construct($AppName, IRequest $request, TestMapper $mapper, $UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
