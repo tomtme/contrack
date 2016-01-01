@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>contrack</id>
+    <name>Contrack</name>
+    <description>Contact tracker</description>
+    <licence>AGPL</licence>
+    <author>Tom Tijerina</author>
+    <version>0.0.0.1</version>
+    <namespace>Contrack</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="8.1" />
+    </dependencies>
+</info>
