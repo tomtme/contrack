@@ -15,9 +15,9 @@ class TestMapper extends Mapper {
         return $this->findEntities($sql, [$userId]);
     }
 
-    public function getAll($userId) {
-        $sql = 'SELECT * FROM *PREFIX*contrack_company WHERE user_id = ?';
-        return $this->findEntities($sql, [$userId]);
+    public function getAll() {
+        $sql = 'SELECT * FROM *PREFIX*contrack_company';
+        return $this->findEntities($sql);
     }
 
 }

@@ -17,6 +17,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 
+use OCA\OwnNotes\Db\test;
+use OCA\OwnNotes\Db\testMapper;
+
 class PageController extends Controller {
 
 
