@@ -25,6 +25,8 @@ class PageController extends Controller {
 
 	private $userId;
 
+	private $mapper;
+	
 	public function __construct($AppName, IRequest $request, TestMapper $mapper, $UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
