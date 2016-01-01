@@ -63,9 +63,9 @@ class PageController extends Controller {
 	 */
 	public function ajax($data) {
 		if ($data ==='company')
-		return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data));  // templates/main.php
-		else
-		return new DataResponse(array("1" => "Crapple", "2" =>"Junk", "6" => $data));  // templates/main.php
+		//return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data));  // templates/main.php
+		//else
+		return new DataResponse($this->mapper->findAll());  // templates/main.php
 
 	}
 
