@@ -1,5 +1,5 @@
 <?php
-namespace OCA\OwnNotes\Db;
+namespace OCA\Contrack\Db;
 
 use JsonSerializable;
 
@@ -7,14 +7,14 @@ use OCP\AppFramework\Db\Entity;
 
 class Test extends Entity implements JsonSerializable {
 
-    protected $id;
+    // public $id;
     protected $uid;
     protected $name;
+    protected $deleted;
 
     public function jsonSerialize() {
         return [
             'id' => $this->id,
-            'uid' => $this->uid,
             'name' => $this->name
         ];
     }
