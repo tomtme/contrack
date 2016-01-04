@@ -17,8 +17,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 
-use OCA\Contrack\Db\test;
-use OCA\Contrack\Db\testmapper;
 use OCA\Contrack\Service\TestService;
 
 class PageController extends Controller {
@@ -27,10 +25,10 @@ class PageController extends Controller {
 	private $userId;
 	private $mapper;
 
-	public function __construct($AppName, IRequest $request, TestMapper $mapper, $UserId){
+	public function __construct($AppName, IRequest $request, TestService $service, $UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
-		$this->mapper = $mapper;
+		$this->service = $service;
 	}
 
 	/**
@@ -66,9 +64,9 @@ class PageController extends Controller {
 	 */
 	public function ajax($data) {
 		//if ($data ==='company')
-		//	return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data, "55" => $this->userId));  // templates/main.php
+		return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data, "55" => $this->userId));  // templates/main.php
 		//else
-		return new DataResponse($this->mapper->findAll($this->userId));  // templates/main.php
+		return new DataResponse($this->service->findAll($this->userId));  // templates/main.php
 
 	}
 

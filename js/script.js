@@ -25,7 +25,7 @@ function getData($data){
 	$.getJSON("ajax/"+$data, function(data){
 	  $.each(data, function(index, text) {
 	    $('#'+$data).append(
-	        $('<option></option>').val(index).html(text)
+	        $('<option></option>').val(text.id).html(text.name)
 	    );
 	  });
 	});
