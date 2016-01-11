@@ -14,6 +14,8 @@ window.addEventListener("load", initialize);
 function initialize(){
 	document.getElementById("addcompany").addEventListener("click",addCompany);
 	getData('company');
+	getData('incident');
+	getData('type');
 
 }
 
@@ -24,9 +26,8 @@ function getData($data){
 	$('#'+$data).html('');
 	$.getJSON("ajax/"+$data, function(data){
 	  $.each(data, function(index, text) {
-			window.alert('Im here\n' + index + '\n' + name);
 	    $('#'+$data).append(
-	        $('<option></option>').val(index).html(text)
+	        $('<option></option>').val(text.id).html(text.name)
 	    );
 	  });
 	});
