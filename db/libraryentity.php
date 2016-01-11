@@ -5,9 +5,8 @@ use JsonSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-class Test extends Entity implements JsonSerializable {
+class LibraryEntity extends Entity implements JsonSerializable {
 
-    // public $id;
     protected $uid;
     protected $name;
     protected $deleted;

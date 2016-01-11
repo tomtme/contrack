@@ -17,9 +17,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Controller;
 
-use OCA\Contrack\Db\test;
+use OCA\Contrack\Db\libraryentity;
 use OCA\Contrack\Db\testmapper;
-use OCA\Contrack\Service\TestService;
 
 class PageController extends Controller {
 

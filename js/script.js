@@ -24,6 +24,7 @@ function getData($data){
 	$('#'+$data).html('');
 	$.getJSON("ajax/"+$data, function(data){
 	  $.each(data, function(index, text) {
+			window.alert('Im here\n' + index + '\n' + name);
 	    $('#'+$data).append(
 	        $('<option></option>').val(index).html(text)
 	    );
@@ -34,7 +35,6 @@ function getData($data){
 function addCompany(){
 	var name = window.prompt("Company to add?");
 	//use JSON to add the company here. Once that is complete, call getCompany
-
 	getData('company');
 	return true;
 }
