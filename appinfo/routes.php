@@ -22,6 +22,6 @@ return [
       ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
       ['name' => 'page#test', 'url' => '/test', 'verb' => 'GET'],
       ['name' => 'page#ajax', 'url' => '/ajax/{data}', 'defaults' => array('data' => 'default'),  'verb' => 'GET'],
-  	//  ['name' => 'page#ajax', 'url' => '/ajax', 'verb' => 'POST'],
+  	  ['name' => 'page#create', 'url' => '/create/{data}/{name}', 'verb' => 'GET'],
     ]
 ];

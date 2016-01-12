@@ -12,6 +12,7 @@
 namespace OCA\Contrack\Controller;
 
 use OCP\IRequest;
+use OCP\IDb;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -27,8 +28,9 @@ class PageController extends Controller {
 	private $userId;
 	private $mapper;
 
-	public function __construct($AppName, IRequest $request, CompanyMapper $companymapper, IncidentMapper $incidentmapper, TypeMapper $typemapper, $UserId){
+	public function __construct($AppName, IRequest $request, IDb $db, CompanyMapper $companymapper, IncidentMapper $incidentmapper, TypeMapper $typemapper, $UserId){
 		parent::__construct($AppName, $request);
+		$this->db = $db;
 		$this->userId = $UserId;
 		$this->companymapper = $companymapper;
 		$this->incidentmapper = $incidentmapper;
@@ -89,5 +91,37 @@ class PageController extends Controller {
 		//else
 
 	}
+
+	/**
+	 * CAUTION: Not sure why but added things below to make it go.
+	 *
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function create($data, $name) {
+		$record = new IncidentMapper($this->db);
+		$record->setuid($this->userId);
+		$record->setname($name);
+
+		switch ($data){
+			case "company":
+				return new DataResponse($this->companymapper->insert($record));
+				break;
+
+			case "incident":
+				return new DataResponse($this->incidentmapper->insert($record));
+				break;
+
+			case "type":
+				return new DataResponse($this->typemapper->insert($record));
+				break;
+
+			default:
+			return new DataResponse($this->companymapper->insert($record));
+		}
+}
+
+
 
 }
