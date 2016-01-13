@@ -21,6 +21,7 @@ use OCP\AppFramework\Controller;
 use OCA\Contrack\Db\TypeMapper;
 use OCA\Contrack\Db\IncidentMapper;
 use OCA\Contrack\Db\CompanyMapper;
+use OCA\Contrack\Db\LibraryEntity;
 
 class PageController extends Controller {
 
@@ -100,7 +101,7 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function create($data, $name) {
-		$record = new IncidentMapper($this->db);
+		$record = new LibraryEntity($this->db);
 		$record->setuid($this->userId);
 		$record->setname($name);
 
