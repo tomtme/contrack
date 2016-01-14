@@ -21,7 +21,10 @@ return [
     'routes' => [
       ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
       ['name' => 'page#test', 'url' => '/test', 'verb' => 'GET'],
-      ['name' => 'page#ajax', 'url' => '/ajax/{data}', 'defaults' => array('data' => 'default'),  'verb' => 'GET'],
-  	  ['name' => 'page#create', 'url' => '/create/{data}/{name}', 'verb' => 'GET'],
+      ['name' => 'page#testupload', 'url' => '/testupload', 'verb' => 'GET'],
+  	  ['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
+      ['name' => 'page#read', 'url' => '/read', 'verb' => 'POST'],
+
     ]
 ];
+      //['name' => 'page#create', 'url' => '/create/{data}/{name}', 'verb' => 'GET'],

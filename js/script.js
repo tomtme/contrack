@@ -12,51 +12,42 @@ window.addEventListener("load", initialize);
 
 //function is ran after page is loaded.
 function initialize(){
-	document.getElementById("addcompany").addEventListener("click",addCompany);
-	getData('company');
-	getData('incident');
-	getData('type');
+	getRecords('company');
+	getRecords('incident');
+	getRecords('type');
+	document.getElementById("addcompany").addEventListener("click", function() { addRecord("company", "What is the name of the company?"); });
+	document.getElementById("addincident").addEventListener("click", function() { addRecord("incident", "What is the incident keyword?"); });
+	document.getElementById("addtype").addEventListener("click", function() { addRecord("type", "What is the new type?"); });
+
 
 }
 
 /* This function will get and refresh the company drop down box.
  *
  */
-function getData($data){
-	$('#'+$data).html('');
-	$.getJSON("ajax/"+$data, function(data){
-	  $.each(data, function(index, text) {
-	    $('#'+$data).append(
+function getRecords(record){
+	$('#'+record).html('');
+	var url = OC.generateUrl('/apps/contrack/read');
+	$.post(url,
+	{ data: record},
+	function(dataRecord) {
+		$.each(dataRecord, function(index, text) {
+	    $('#'+record).append(
 	        $('<option></option>').val(text.id).html(text.name)
 	    );
-	  });
-	});
-
-}
-function addCompany(){
-	var name = window.prompt("Company to add?");
-	//use JSON to add the company here. Once that is complete, call getCompany
-	getData('company');
+	  });	}
+);
 	return true;
 }
-(function ($, OC) {
 
-	$(document).ready(function () {
-		$('#hello').click(function () {
-			alert('Hello from your script file');
-		});
-
-		$('#echo').click(function () {
-			var url = OC.generateUrl('/apps/contrack/echo');
-			var data = {
-				echo: $('#echo-content').val()
-			};
-
-			$.post(url, data).success(function (response) {
-				$('#echo-result').text(response.echo);
-			});
-
-		});
-	});
-
-})(jQuery, OC);
+function addRecord(record, prompt){
+	var name = window.prompt(prompt);
+	var url = OC.generateUrl('/apps/contrack/create');
+	$.post(url,
+	{ data: record, name: name },
+	  function() {
+	    getRecords(record);
+		}
+	);
+	return true;
+}

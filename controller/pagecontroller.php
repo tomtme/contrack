@@ -62,6 +62,7 @@ class PageController extends Controller {
 	public function test() {
 		return new TemplateResponse('contrack', 'test', $params);  // templates/main.php
 	}
+
 	/**
 	 * CAUTION: Not sure why but added things below to make it go.
 	 *
@@ -69,28 +70,8 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function ajax($data) {
-		switch ($data){
-			case "company":
-				return new DataResponse($this->companymapper->findAll($this->userId));
-				break;
-
-			case "incident":
-				return new DataResponse($this->incidentmapper->findAll($this->userId));
-				break;
-
-			case "type":
-				return new DataResponse($this->typemapper->findAll($this->userId));
-				break;
-
-			default:
-			return new DataResponse($this->companymapper->findAll($this->userId));
-//					return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data, "55" => $this->userId));
-		}
-		//if ($data ==='company')
-		//	return new DataResponse(array("1" => "Apple", "2" =>"Compaq", "23" =>"MicroJunk", "6" => $data, "55" => $this->userId));  // templates/main.php
-		//else
-
+	public function testupload() {
+		return new TemplateResponse('contrack', 'testupload', $params);  // templates/main.php
 	}
 
 	/**
@@ -121,7 +102,36 @@ class PageController extends Controller {
 			default:
 			return new DataResponse($this->companymapper->insert($record));
 		}
-}
+	}
+
+
+	/**
+	 * CAUTION: Not sure why but added things below to make it go.
+	 *
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function read($data) {
+
+		switch ($data) {
+			case "company":
+				return new DataResponse($this->companymapper->findAll($this->userId));
+				break;
+
+			case "incident":
+				return new DataResponse($this->incidentmapper->findAll($this->userId));
+				break;
+
+			case "type":
+				return new DataResponse($this->typemapper->findAll($this->userId));
+				break;
+
+			default:
+				return new DataResponse($this->companymapper->findAll($this->userId));
+		}
+	}
+
 
 
 
