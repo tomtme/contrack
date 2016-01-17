@@ -29,7 +29,7 @@ class PageController extends Controller {
 	private $userId;
 	private $mapper;
 
-	public function __construct($AppName, IRequest $request, IDb $db, CompanyMapper $companymapper, IncidentMapper $incidentmapper, TypeMapper $typemapper, $UserId){
+	public function __construct($AppName, IRequest $request, IDb $db, CompanyMapper $companymapper,IncidentMapper $incidentmapper, TypeMapper $typemapper, $UserId){
 		parent::__construct($AppName, $request);
 		$this->db = $db;
 		$this->userId = $UserId;
@@ -131,8 +131,5 @@ class PageController extends Controller {
 				return new DataResponse($this->companymapper->findAll($this->userId));
 		}
 	}
-
-
-
 
 }

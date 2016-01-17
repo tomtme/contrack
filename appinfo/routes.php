@@ -24,6 +24,7 @@ return [
       ['name' => 'page#testupload', 'url' => '/testupload', 'verb' => 'GET'],
   	  ['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
       ['name' => 'page#read', 'url' => '/read', 'verb' => 'POST'],
+      ['name' => 'test#upload', 'url' => '/upload', 'verb' => 'POST'],
 
     ]
 ];

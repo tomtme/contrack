@@ -19,8 +19,28 @@ function initialize(){
 	document.getElementById("addincident").addEventListener("click", function() { addRecord("incident", "What is the incident keyword?"); });
 	document.getElementById("addtype").addEventListener("click", function() { addRecord("type", "What is the new type?"); });
 
+	document.getElementById('adddata').addEventListener('change', handleFileSelect, false);
+
 
 }
+
+/*This function should take care of incoming files. 
+*
+*/
+function handleFileSelect(evt) {
+	var files = evt.target.files; // FileList object
+
+	// files is a FileList of File objects. List some properties.
+	var output = [];
+	for (var i = 0, f; f = files[i]; i++) {
+		output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+								f.size, ' bytes, last modified: ',
+								f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+								'</li>');
+	}
+	document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+}
+
 
 /* This function will get and refresh the company drop down box.
  *
