@@ -69,6 +69,7 @@ class TestController extends Controller {
 if (is_dir($directory) && is_writable($directory)) {
     echo "Is here and writable, attempting to write file: <br>" . $directory . $filedata['name'] . "<br>";
 		echo "Here: " . move_uploaded_file($filedata['tmp_name'], $directory . $filedata['name']);
+		echo "Is updatable? " . \OC\Files\Filesystem::isUpdatable("/contrack/" . $filedata['name']);
 		\OC\Files\Filesystem::file_put_contents("/contrack/" . $filedata['name'], file_get_contents($filedata['tmp_name']));
 		error_log("\n\nThis is here!: \n\n\n", 3, "/var/www/owncloud/data/owncloud.log");
 
