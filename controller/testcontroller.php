@@ -30,15 +30,15 @@ class TestController extends Controller {
 		$this->userid = $UserId;
 		$this->files = $files;
 		$this->request = $request;
+		$this->configfolderdir = "/test";
 	}
 
-	public function getDirectory(){
+	public function getFullPath(){
 		//TODO: Set a folder variable here in a config file.
-		$configfolderdir = "/contrack";
-		$basedir = \OC::$SERVERROOT;
-		$basedir .= '/data/' . \OCP\User::getUser() . '/files';
-		$basedir .= $configfolderdir . "/";
-		echo "Inside here: " . $basedir . "<br>";
+
+		$basedir  = \OCP\Config::getSystemValue('datadirectory',\OC::$SERVERROOT.'/data');
+		$basedir .= "/" .\OCP\User::getUser() . '/files';
+		$basedir .= $this->configfolderdir;
 		return $basedir;
 
 	}
@@ -53,52 +53,70 @@ class TestController extends Controller {
 	//	error_log("\nThis is the result of it:  " . $this->unknown->file->storage->file_put_contents($filename, $filedata) ."\n\n\n", 3, "/var/www/owncloud/data/owncloud.log");
 	//	error_log("\n\n Upload: " .move_uploaded_file($_FILES["filedata"]["tmp_name"], $filename), 3, "/var/www/owncloud/data/owncloud.log");
 		$filedata = $this->request->getUploadedFile("data");
-		echo "This is the first line. \n<br>";
-		echo ":".$filedata['tmp_name']."<br>";
-		echo ":".$filedata['name']."<br>";
-		echo ":".$filedata['size']."<br>";
-		echo \OCP\Config::getSystemValue('datadirectory',\OC::$SERVERROOT.'/data' );
-		echo "HERE: ". self::getDirectory() ."<br>";
+		echo "<ul>Temporary Diagnostic Information";
+		echo "<li>".$filedata['tmp_name']."</li>";
+		echo "<li>".$filedata['name']."</li>";
+		echo "<li>".$filedata['size']."</li>";
+		echo "<li>Freespace: ". \OC\Files\Filesystem::free_space()."</li>";
 		$ownclouddir = explode("/", \OC::$SERVERROOT);
 
+		echo "</ul>";
 		echo "<br>";
 
-		$directory = self::getDirectory();
-		echo "This is what I'm storing: ". $directory . $filedata['name'] . "<br>";
 
-if (is_dir($directory) && is_writable($directory)) {
-    echo "Is here and writable, attempting to write file: <br>" . $directory . $filedata['name'] . "<br>";
-		echo "Here: " . move_uploaded_file($filedata['tmp_name'], $directory . $filedata['name']);
-		\OC\Files\Filesystem::file_put_contents("/contrack/" . $filedata['name'], file_get_contents($filedata['tmp_name']));
-		error_log("\n\nThis is here!: \n\n\n", 3, "/var/www/owncloud/data/owncloud.log");
+		//This checks if the folder exists, and if not it attempts to create it, complaining if that fails.
+		if (!\OC\Files\Filesystem::file_exists($this->configfolderdir)){
+			if(\OC\Files\Filesystem::mkdir($this->configfolderdir)){
+				//We were able to create the folder
+				echo "<br><b>Created the folder</b><br>";
+			} else {
+				echo "<br><b>Unable to create the folder</b><br>";
+				return 1;
+				//Not able to create the folder.
+			}
+		}
 
-} else {
-    echo 'Upload directory is not writable, or does not exist.';
-}
+		//This ensures that if the file exists and we are not allowed to update it that we complain about it.
+		if ( (\OC\Files\Filesystem::file_exists($this->configfolderdir ."/". $filedata['name'])) &&
+			(!\OC\Files\Filesystem::isUpdatable($this->configfolderdir ."/". $filedata['name'])) ){
+				echo "<br><b>I can't update this existing file!!</b><br>";
+				return 1;
+		}
 
-//		return new Response("line 1?<br>"	 	 . $dataresponse);
-		// echo ":".$_FILES["data"]['tmp_name']."<br>";
-		// echo ":".$_FILES['data']['error']."<br>";
-		// echo ":".$_FILES["data"]['size']."<br>";
-		// //move_uploaded_file($_FILES['file']['name'], $move);
+		//Ensures we have enough room to write it.
+		if (\OC\Files\Filesystem::free_space() < $filedata['size']){
+			echo "<br><b>Not enough free space for this file!</b><br>";
+			return 1;
+		}
 
-		// try {
-		// 		try {
-		// 				$destination = $this->unknown->file->getId($filename);
-		// 		} catch(\OCP\Files\NotFoundException $e) {
-		// 				$this->unknown->file->touch($filename);
-		// 				$destination = $this->unknown->file->getId($filename);
-		// 		}
-		//
-		// 		// the id can be accessed by $file->getId();
-		// 		$destination->putContent($filedata);
-		//
-		// } catch(\OCP\Files\NotPermittedException $e) {
-		// 		// you have to create this exception by yourself ;)
-		// 		throw new StorageException('Cant write to file');
-		// }
-		echo "<br><br>";
-		return;
+
+			//TODO, log any errors from this function!
+			if (\OC\Files\Filesystem::isUpdatable($this->configfolderdir))	{
+				//We are able to write to the folder.
+				echo "<br><b>Attempting to write to the folder</b><br>";
+				$writtenSize = \OC\Files\Filesystem::file_put_contents($this->configfolderdir ."/". $filedata['name'], file_get_contents($filedata['tmp_name']));
+				echo "<i> Writen Size: ".$writtenSize ."</i><br><br>";
+				if ($writtenSize){
+					if ($filedata['size'] == $writtenSize){
+						//All is good!
+						echo "<br><b>File uploaded correctly</b><br>";
+					} else {
+						//We uploaded the file, but not ALL the file!
+						echo "<br><b>We wrote a partial file.</b><br>";
+					}
+				} else {
+					//We didn't upload the file at all, wrote 0 bytes?
+					echo "<br><b>We wrote 0 or null bytes</b><br>";
+				}
+			} else {
+				//Not able to write to the folder
+				echo "<br><b>Couldn't write to the folder.</b><br>";
+				return 1;
+
+			}
+			//unlink = 1 worked, 0 failed?
+//			\OC\Files\Filesystem::unlink($RelativePathFile);
+		//return;
 	}
 
 
